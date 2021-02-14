@@ -23,16 +23,16 @@
                 <h1 class="text-center">Users</h1>
             </div>
                 <div class="col-md-12">
-                @if($message = Session::get('success'))
+                @if($message = Session::get('status'))
                     <!-- <div class="alert alert-info alert-dismissible fade in" role="alert"> -->
                     <div class="alert alert-primary" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
-                        <strong>Success!</strong> {{ $message }}
+                        {{ $message }}
                     </div>
                 @endif
-                {!! Session::forget('success') !!}
+                {!! Session::forget('status') !!}
 
                 <h2 class="text-title">Import Export Excel/CSV - Next Day Site</h2>
                     <a href="{{ route('exportExcelData', 'xls') }}"><button class="btn btn-success">Download Excel xls</button></a>

@@ -26,8 +26,15 @@ class UserExcelController extends Controller
      */
     public function exportExcelData($format)
     {
-        Session::put('success', 'Your file is exported successfully.');
-        return (new UserExport)->download('users.'.$format);
+        try {
+            Session::put('status', 'Your file is exported successfully.');
+            return (new UserExport)->download('users.'.$format);
+            
+        } catch (\Throwable $th) {
+            \Log::error($th);
+            Session::put('status', $th->getMessage());
+            return back();
+        }
     }
 
     /**
@@ -36,10 +43,17 @@ class UserExcelController extends Controller
     */
     public function importExcelData(Request $request) 
     {
-        \Excel::import(new UserImport,$request->fileToImport);
-
-        Session::put('success', 'Your file is imported successfully in database.');
-           
-        return back();
+        try {
+            
+            \Excel::import(new UserImport,$request->fileToImport);
+    
+            Session::put('status', 'Your file is imported successfully in database.');
+               
+            return back();
+        } catch (\Throwable $th) {
+            \Log::error($th);
+            Session::put('status', $th->getMessage());
+            return back();
+        }
     }
 }
